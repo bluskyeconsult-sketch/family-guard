@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "description": "Family Guard device ingest and cron API. Runs on Vercel, writes to the shared Family Tutor Supabase project with the service role.",
-  "type": "module",
   "engines": { "node": ">=20" },
   "scripts": {
     "typecheck": "tsc --noEmit"
