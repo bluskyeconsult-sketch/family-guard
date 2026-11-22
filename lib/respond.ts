@@ -1,8 +1,11 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 export function json(res: VercelResponse, status: number, body: unknown): void {
-  res.status(status).setHeader('content-type', 'application/json');
-  res.send(JSON.stringify(body));
+  // Use the raw Node response API (always present) rather than Vercel helper
+  // methods, so a handler never fails just because res.status is unavailable.
+  res.setHeader('content-type', 'application/json');
+  res.statusCode = status;
+  res.end(JSON.stringify(body));
 }
 
 export function methodGuard(
