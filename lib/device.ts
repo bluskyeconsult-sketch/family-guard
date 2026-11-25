@@ -7,6 +7,10 @@
 import type { VercelRequest } from '@vercel/node';
 import { admin } from './supabase';
 
+// Minimum accepted token length. Lowered 32 -> 12 to accept the shorter
+// 16-character enrolment codes while still rejecting junk.
+const MIN_TOKEN_LEN = 12;
+
 export interface DeviceContext {
   device_id: string;
   learner_id: string;
@@ -16,8 +20,8 @@ export interface DeviceContext {
 
 export function deviceToken(req: VercelRequest): string | null {
   const h = req.headers['x-device-token'];
-  if (typeof h === 'string' && h.length >= 32) return h;
-  if (Array.isArray(h) && typeof h[0] === 'string' && h[0].length >= 32) return h[0];
+  if (typeof h === 'string' && h.length >= MIN_TOKEN_LEN) return h;
+  if (Array.isArray(h) && typeof h[0] === 'string' && h[0].length >= MIN_TOKEN_LEN) return h[0];
   return null;
 }
 
